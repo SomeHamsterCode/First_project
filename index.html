@@ -1,40 +1,1746 @@
+I will create a modern, interactive educational website about "Science in Modern Society" with two main sections (Education and Science), interactive navigation, and educational games for knowledge reinforcement.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой статический сайт</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Наука в жизни современного общества</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7e22ce;
+            --accent: #0ea5e9;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        nav a.active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(126, 34, 206, 0.85)), url('https://placehold.co/1600x900/1e40af/ffffff?text=Наука+и+Образование') no-repeat center center/cover;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-quote .author {
+            display: block;
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -10px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .card-body ul, .card-body ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .card-body li {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-image {
+            height: 200px;
+            background: linear-gradient(45deg, #cbd5e1, #e2e8f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray);
+        }
+
+        /* Interactive Elements */
+        .interactive-element {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .interactive-element h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Games Section */
+        .games {
+            background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--card-shadow);
+        }
+
+        .game-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .game-instructions {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Matching Game */
+        .matching-game {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .match-item {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .match-item:hover {
+            border-color: var(--primary);
+            transform: scale(1.03);
+        }
+
+        .match-item.selected {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .match-item.correct {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--success);
+        }
+
+        .match-item.incorrect {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--warning);
+        }
+
+        /* Quiz Game */
+        .quiz-questions {
+            margin: 1.5rem 0;
+        }
+
+        .question {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            background: #dbeafe;
+            border-color: var(--primary);
+        }
+
+        .option.selected {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+        }
+
+        .option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+        }
+
+        .option.incorrect {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--warning);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Scientists Section */
+        .scientists {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .scientist-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .scientist-image {
+            height: 250px;
+            background: linear-gradient(45deg, #94a3b8, #64748b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .scientist-info {
+            padding: 1.5rem;
+        }
+
+        .scientist-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .scientist-field {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            nav {
+                width: 100%;
+                background: rgba(0, 0, 0, 0.2);
+                padding: 1rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header & Navigation -->
     <header>
-        <h1>🚀 Мой крутой сайт</h1>
-        <p>Полностью статический - без бэкенда!</p>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-atom"></i>
+                <span>Наука и Образование</span>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home" class="active">Главная</a></li>
+                    <li><a href="#science">Наука</a></li>
+                    <li><a href="#education">Образование</a></li>
+                    <li><a href="#games">Игры</a></li>
+                    <li><a href="#about">О проекте</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section class="features">
-            <div class="feature">
-                <h3>📝 Блог</h3>
-                <p>Мои мысли и идеи</p>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Наука в жизни современного общества</h1>
+            <p>Исследование роли науки и образования в современном мире, их взаимосвязи и влияния на развитие общества</p>
+            
+            <div class="hero-quote">
+                "Современная наука настолько проникла во все области жизни общества, что стала решающим фактором в развитии производительных сил. Теперь уже наука вовсе не идёт путями внезапных прозрений гениальных одиночек..."
+                <span class="author">— И. А. Ефремов, русский учёный и писатель-фантаст</span>
             </div>
-            <div class="feature">
-                <h3>📞 Контакты</h3>
-                <p>Свяжись со мной</p>
-            </div>
-            <div class="feature">
-                <h3>🎯 Проекты</h3>
-                <p>Что я создал</p>
-            </div>
-        </section>
+            
+            <a href="#science" class="btn btn-large">
+                <i class="fas fa-arrow-down"></i> Начать исследование
+            </a>
+        </div>
+    </section>
 
-        <section class="blog-posts">
-            <h2>Последние посты</h2>
-            <div id="posts-container">
-                <!-- Посты появятся здесь -->
+    <!-- Science Section -->
+    <section id="science" class="content-section active">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-flask"></i> Наука</h2>
+                <p>Наука — важнейший социальный институт общества, удовлетворяющий его потребность в открытии нового и расширении горизонтов познания систематическим образом.</p>
             </div>
-        </section>
-    </main>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="science-basics">Основы науки</button>
+                <button class="tab-btn" data-tab="science-levels">Уровни познания</button>
+                <button class="tab-btn" data-tab="science-theory">Научная теория</button>
+                <button class="tab-btn" data-tab="science-revolution">Научная революция</button>
+                <button class="tab-btn" data-tab="russian-science">Российская наука</button>
+            </div>
+
+            <!-- Science Basics -->
+            <div id="science-basics" class="tab-content active">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-microscope"></i> Что такое наука?
+                        </div>
+                        <div class="card-body">
+                            <p>Наука — это важнейший социальный институт общества, удовлетворяющий его потребность в открытии нового и расширении горизонтов познания систематическим образом.</p>
+                            <p>Основные характеристики научного знания:</p>
+                            <ul>
+                                <li><strong>Объективность</strong> — независимость от субъективных представлений</li>
+                                <li><strong>Логичность</strong> — непротиворечивость и доказательность</li>
+                                <li><strong>Системность</strong> — взаимосвязанность всех элементов знания</li>
+                                <li><strong>Проверяемость</strong> — возможность эмпирической проверки</li>
+                                <li><strong>Обобщенность</strong> — открытие универсальных законов</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-project-diagram"></i> Классификация наук
+                        </div>
+                        <div class="card-body">
+                            <h3>По предмету исследования:</h3>
+                            <ul>
+                                <li><strong>Естественные науки:</strong> физика, химия, биология, астрономия, геология</li>
+                                <li><strong>Общественные и гуманитарные науки:</strong> социология, психология, философия, история, политология</li>
+                            </ul>
+                            
+                            <h3>По глубине проникновения:</h3>
+                            <ul>
+                                <li><strong>Фундаментальные науки:</strong> исследуют законы природы и общества, создают теоретическую базу</li>
+                                <li><strong>Прикладные науки:</strong> занимаются практическими знаниями, внедряемыми в производство (до 90% современных исследований)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cogs"></i> Функции науки
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Познавательная:</strong> изучение природы, человека и общества, открытие закономерностей</li>
+                                <li><strong>Мировоззренческая:</strong> формирование системы взглядов на мир, развитие критического мышления</li>
+                                <li><strong>Производственная:</strong> развитие технологий, внедрение в практику</li>
+                                <li><strong>Социальная:</strong> изменение устройства общества, улучшение качества жизни</li>
+                                <li><strong>Культурная:</strong> создание новых ценностей, идей и теорий</li>
+                                <li><strong>Просветительская:</strong> повышение уровня образования населения</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Science Levels -->
+            <div id="science-levels" class="tab-content">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-binoculars"></i> Эмпирический уровень
+                        </div>
+                        <div class="card-body">
+                            <p>Это уровень, на котором происходит непосредственное наблюдение и исследование объектов или процессов.</p>
+                            <ul>
+                                <li>Используются средства эмпирического исследования: приборы, эксперименты, микроскопы</li>
+                                <li>Знание основывается на фактах, полученных в результате наблюдений и экспериментов</li>
+                                <li>Характеризуется конкретностью и наглядностью</li>
+                                <li>Методы: наблюдение, измерение, эксперимент, описание</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-brain"></i> Теоретический уровень
+                        </div>
+                        <div class="card-body">
+                            <p>Это уровень, на котором происходит обобщение и систематизация эмпирических данных.</p>
+                            <ul>
+                                <li>Формируются научные теории, законы и принципы</li>
+                                <li>Опирается на абстрактные понятия и законы</li>
+                                <li>Позволяет делать обобщения и предсказания</li>
+                                <li>Методы: абстрагирование, идеализация, формализация, аксиоматизация</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-exchange-alt"></i> Взаимосвязь уровней
+                        </div>
+                        <div class="card-body">
+                            <p>Эмпирический и теоретический уровни тесно взаимосвязаны и дополняют друг друга:</p>
+                            <ul>
+                                <li>Эмпирический уровень обеспечивает фактическую основу для теоретического</li>
+                                <li>Теоретический уровень помогает интерпретировать и объяснять эмпирические данные</li>
+                                <li>Развитие науки происходит через постоянный диалог между этими уровнями</li>
+                                <li>Эмпирические данные проверяют теории, а теории направляют эмпирические исследования</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Science Theory -->
+            <div id="science-theory" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-book"></i> Научная теория
+                    </div>
+                    <div class="card-body">
+                        <p>Научная теория — это система логически связанных между собой абстрактных понятий, дающая целостную картину явления и проверяемая на практике.</p>
+                        
+                        <h3>Основные характеристики научной теории:</h3>
+                        <ul>
+                            <li>Система гипотез, которые могут быть проверены эмпирически</li>
+                            <li>Объясняет универсальные и необходимые свойства объектов</li>
+                            <li>Предсказывает будущие события</li>
+                            <li>Связывает абстрактные модели с реальными объектами</li>
+                            <li>Обладает внутренней непротиворечивостью</li>
+                            <li>Имеет эмпирическую базу</li>
+                        </ul>
+                        
+                        <h3>Структура научной теории:</h3>
+                        <ol>
+                            <li>Исходные основания (аксиомы, постулаты)</li>
+                            <li>Идеализированные объекты (модели, схемы)</li>
+                           li>Логика теории (правила вывода)</li>
+                            <li>Философские установки</li>
+                            <li>Совокупность законов и утверждений</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Science Revolution -->
+            <div id="science-revolution" class="tab-content">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bolt"></i> Научная революция
+                        </div>
+                        <div class="card-body">
+                            <p>Научная революция — это радикальное изменение форм и приемов научного познания, ведущее к изменению картины мира и внедрению новых технологий.</p>
+                            
+                            <h3>Характеристики научной революции:</h3>
+                            <ul>
+                                <li>Появление совершенно новых идей, меняющих представления об окружающем мире</li>
+                                <li>Изменение научной парадигмы (основополагающих принципов)</li>
+                                <li>Переосмысление фундаментальных понятий</li>
+                                <li>Создание новых методов исследования</li>
+                                <li>Влияние на другие науки и общество в целом</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-history"></i> Исторические примеры
+                        </div>
+                        <div class="card-body">
+                            <h3>Великие научные революции:</h3>
+                            <ul>
+                                <li><strong>Коперниканская революция (XVI век):</strong> переход от геоцентрической системы Птолемея к гелиоцентрической системе Коперника</li>
+                                <li><strong>Ньютоновская революция (XVII век):</strong> создание классической механики и теории тяготения</li>
+                                <li><strong>Эйнштейновская революция (начало XX века):</strong> создание теории относительности</li>
+                                <li><strong>Квантовая революция (начало XX века):</strong> создание квантовой механики</li>
+                                <li><strong>ДНК-революция (середина XX века):</strong> открытие структуры ДНК и развитие молекулярной биологии</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Russian Science -->
+            <div id="russian-science" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-flag-russia"></i> Достижения российской науки
+                    </div>
+                    <div class="card-body">
+                        <p>Современная российская наука достигла мирового уровня в ряде ключевых областей:</p>
+                        
+                        <h3>Квантовые технологии:</h3>
+                        <ul>
+                            <li>Квантовый GPS и квантовые коммуникации</li>
+                            <li>Создание квантового компьютера</li>
+                            <li>Светодиод, излучающий несколько миллиардов одиночных фотонов в секунду</li>
+                        </ul>
+                        
+                        <h3>Космические исследования:</h3>
+                        <ul>
+                            <li>Космический телескоп «Радиоастрон» (2011) — самое высокое угловое разрешение в истории астрономии</li>
+                            <li>Лидерство в пилотируемых полетах и глобальных навигационных системах</li>
+                        </ul>
+                        
+                        <h3>Фундаментальные исследования:</h3>
+                        <ul>
+                            <li>Работы Ж.И. Алферова в области полупроводников и квантовой электроники (Нобелевская премия)</li>
+                            <li>Доказательство гипотезы Пуанкаре Г.Я. Перельманом</li>
+                            <li>Создание магнитного поля в десятки миллионов раз сильнее земного</li>
+                            <li>Проект NICA — изучение процессов после Большого взрыва</li>
+                            <li>Синтез новых сверхтяжелых элементов таблицы Менделеева</li>
+                        </ul>
+                        
+                        <div class="scientists">
+                            <div class="scientist-card">
+                                <div class="scientist-image">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="scientist-info">
+                                    <div class="scientist-name">Жорес Иванович Алферов</div>
+                                    <div class="scientist-field">Физик, лауреат Нобелевской премии</div>
+                                    <p>Работы в области полупроводниковых гетероструктур, квантовой электроники и оптоэлектроники.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="scientist-card">
+                                <div class="scientist-image">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="scientist-info">
+                                    <div class="scientist-name">Григорий Яковлевич Перельман</div>
+                                    <div class="scientist-field">Математик</div>
+                                    <p>Доказал гипотезу Пуанкаре — одну из важнейших математических задач тысячелетия.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="content-section">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-graduation-cap"></i> Образование</h2>
+                <p>Образование — система передачи знаний от одного поколения к другому на основе письменных источников.</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="education-basics">Основы образования</button>
+                <button class="tab-btn" data-tab="education-functions">Функции образования</button>
+                <button class="tab-btn" data-tab="education-directions">Направления развития</button>
+            </div>
+
+            <!-- Education Basics -->
+            <div id="education-basics" class="tab-content active">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-book-open"></i> Что такое образование?
+                        </div>
+                        <div class="card-body">
+                            <p>Образование — это социальный институт, основная задача которого — передать потомкам знания, разработанные предыдущими поколениями.</p>
+                            
+                            <div class="interactive-element">
+                                <h3><i class="fas fa-quote-left"></i> Цитата о важности систематизации знаний</h3>
+                                <blockquote style="font-size: 1.2rem; font-style: italic; padding: 1.5rem; background: #f1f5f9; border-radius: 12px;">
+                                    «Голова, наполненная отрывочными, бессвязными знаниями, похожа на кладовую, в которой всё в беспорядке и где сам хозяин ничего не отыщет; голова, где только система без знания, похожа на лавку, в которой на всех ящиках есть надписи, а в ящиках пусто».
+                                    <div style="margin-top: 1rem; font-weight: 600; color: var(--primary);">— К. Д. Ушинский, русский педагог</div>
+                                </blockquote>
+                            </div>
+                            
+                            <p>Современное образование — это гигантская система, включающая:</p>
+                            <ul>
+                                <li>Социальные организации и учреждения</li>
+                                <li>Министерства и органы управления</li>
+                                <li>Десятки тысяч образовательных организаций</li>
+                                <li>Миллионы обучающихся и педагогических работников</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i> Уровни образования в РФ
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Дошкольное образование:</strong> детские сады, развивающие центры</li>
+                                <li><strong>Начальное общее образование:</strong> 1-4 классы</li>
+                                <li><strong>Основное общее образование:</strong> 5-9 классы</li>
+                                <li><strong>Среднее общее образование:</strong> 10-11 классы</li>
+                                <li><strong>Среднее профессиональное образование:</strong> техникумы, колледжи</li>
+                                <li><strong>Высшее образование:</strong> бакалавриат, специалитет, магистратура, аспирантура</li>
+                                <li><strong>Дополнительное образование:</strong> курсы повышения квалификации, профессиональная переподготовка</li>
+                            </ul>
+                            
+                            <h3>Тенденции развития:</h3>
+                            <ul>
+                                <li>Цифровизация образовательного процесса</li>
+                                <li>Индивидуализация обучения</li>
+                                <li>Развитие дистанционных технологий</li>
+                                <li>Акцент на soft skills и критическом мышлении</li>
+                                <li>Международная интеграция и мобильность</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Functions -->
+            <div id="education-functions" class="tab-content">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar"></i> Экономическая функция
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Подготовка квалифицированных работников для различных отраслей экономики</li>
+                                <li>Увеличение ВВП страны за счет повышения производительности труда</li>
+                                <li>Для индивидов: получение высокооплачиваемой работы и карьерный рост</li>
+                                <li>Формирование человеческого капитала как главного ресурса экономики</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-users"></i> Социальная функция
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Социальная мобильность — продвижение наиболее подготовленных людей</li>
+                                <li>Формирование социальных связей и сетей</li>
+                                <li>Интеграция в социальные группы</li>
+                                <li>Снижение социального неравенства через равный доступ к знаниям</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-monument"></i> Культурная функция
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Передача знаний, ценностей и традиций от поколения к поколению</li>
+                                <li>Сохранение и преумножение культурного наследия общества</li>
+                                <li>Всестороннее развитие личности</li>
+                                <li>Совершенствование творческих способностей индивида</li>
+                                <li>Формирование культурной идентичности</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-heart"></i> Воспитательная функция
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Социализация учащихся</li>
+                                <li>Привитие навыков цивилизованного поведения</li>
+                                <li>Соблюдение моральных норм общества</li>
+                                <li>Формирование мировоззрения гражданина</li>
+                                <li>Подготовка молодежи к самостоятельной деятельности</li>
+                                <li>Формирование гражданской позиции и патриотизма</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bullseye"></i> Идеологическая функция
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Формирование идеологической направленности личности</li>
+                                <li>Развитие жизненной позиции</li>
+                                <li>Воспитание гражданственности и патриотизма</li>
+                                <li>Формирование ценностных ориентаций</li>
+                                <li>Подготовка к участию в общественной жизни</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Directions -->
+            <div id="education-directions" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-road"></i> Основные направления развития образования
+                    </div>
+                    <div class="card-body">
+                        <h3>1. Цифровая трансформация</h3>
+                        <ul>
+                            <li>Внедрение цифровых образовательных платформ</li>
+                            <li>Использование искусственного интеллекта для персонализации обучения</li>
+                            <li>Развитие онлайн-курсов и MOOC (массовые открытые онлайн-курсы)</li>
+                            <li>Цифровые учебники и интерактивные материалы</li>
+                        </ul>
+                        
+                        <h3>2. Компетентностный подход</h3>
+                        <ul>
+                            <li>Акцент на формировании ключевых компетенций</li>
+                            <li>Развитие критического мышления и креативности</li>
+                            <li>Формирование soft skills (коммуникация, командная работа, эмоциональный интеллект)</li>
+                            <li>Практико-ориентированное обучение</li>
+                        </ul>
+                        
+                        <h3>3. Инклюзивное образование</h3>
+                        <ul>
+                            <li>Обеспечение равного доступа к образованию для всех</li>
+                            <li>Создание безбарьерной образовательной среды</li>
+                            <li>Поддержка учащихся с особыми образовательными потребностями</li>
+                            <li>Мультикультурное образование</li>
+                        </ul>
+                        
+                        <h3>4. Непрерывное образование</h3>
+                        <ul>
+                            <li>Обучение на протяжении всей жизни (lifelong learning)</li>
+                            <li>Гибкие образовательные траектории</li>
+                            <li>Микроквалификации и цифровые бейджи</li>
+                            <li>Корпоративное обучение и профессиональная переподготовка</li>
+                        </ul>
+                        
+                        <div class="interactive-element">
+                            <h3><i class="fas fa-lightbulb"></i> Размышляем вместе</h3>
+                            <p>Как, по вашему мнению, должна измениться система образования в ближайшие 10 лет, чтобы соответствовать вызовам современного мира?</p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+                                <span class="btn btn-outline" style="flex: 1; min-width: 200px;">Цифровизация</span>
+                                <span class="btn btn-outline" style="flex: 1; min-width: 200px;">Практические навыки</span>
+                                <span class="btn btn-outline" style="flex: 1; min-width: 200px;">Творчество</span>
+                                <span class="btn btn-outline" style="flex: 1; min-width: 200px;">Глобальная компетентность</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="content-section games">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-gamepad"></i> Образовательные игры</h2>
+                <p>Интерактивные игры для закрепления знаний по теме "Наука в жизни современного общества"</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="matching-game">Сопоставление понятий</button>
+                <button class="tab-btn" data-tab="science-quiz">Викторина по науке</button>
+                <button class="tab-btn" data-tab="education-quiz">Викторина по образованию</button>
+            </div>
+
+            <!-- Matching Game -->
+            <div id="matching-game" class="tab-content active">
+                <div class="game-container">
+                    <div class="game-title">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <h3>Сопоставьте понятия и их определения</h3>
+                    </div>
+                    
+                    <div class="game-instructions">
+                        <p><strong>Инструкция:</strong> Нажмите на понятие из левой колонки, затем на соответствующее определение из правой колонки. Попробуйте сопоставить все пары правильно!</p>
+                    </div>
+                    
+                    <div class="matching-game" id="matchingGame">
+                        <div class="match-item" data-type="concept" data-id="1">Эмпирический уровень</div>
+                        <div class="match-item" data-type="concept" data-id="2">Теоретический уровень</div>
+                        <div class="match-item" data-type="concept" data-id="3">Научная революция</div>
+                        <div class="match-item" data-type="concept" data-id="4">Фундаментальная наука</div>
+                        
+                        <div class="match-item" data-type="definition" data-id="1">Уровень, на котором происходит непосредственное наблюдение и исследование объектов</div>
+                        <div class="match-item" data-type="definition" data-id="2">Уровень, на котором происходит обобщение и систематизация эмпирических данных</div>
+                        <div class="match-item" data-type="definition" data-id="3">Радикальное изменение форм и приемов научного познания</div>
+                        <div class="match-item" data-type="definition" data-id="4">Наука, исследующая законы природы и общества для получения новых знаний</div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn" id="checkMatching">Проверить ответы</button>
+                        <button class="btn btn-outline" id="resetMatching" style="margin-left: 1rem;">Сбросить</button>
+                    </div>
+                    
+                    <div id="matchingResult" style="margin-top: 1.5rem; text-align: center; font-weight: 600; font-size: 1.2rem; display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Science Quiz -->
+            <div id="science-quiz" class="tab-content">
+                <div class="game-container">
+                    <div class="game-title">
+                        <i class="fas fa-atom"></i>
+                        <h3>Викторина по науке</h3>
+                    </div>
+                    
+                    <div class="game-instructions">
+                        <p><strong>Инструкция:</strong> Выберите один правильный ответ для каждого вопроса. После завершения нажмите "Проверить результаты".</p>
+                    </div>
+                    
+                    <div class="quiz-questions">
+                        <div class="question">
+                            <div class="question-text">1. Что такое наука?</div>
+                            <div class="options">
+                                <div class="option" data-question="1" data-answer="a">Система знаний об окружающем мире, полученных опытным путем</div>
+                                <div class="option" data-question="1" data-answer="b">Важнейший социальный институт общества, удовлетворяющий потребность в открытии нового</div>
+                                <div class="option" data-question="1" data-answer="c">Процесс накопления знаний предыдущими поколениями</div>
+                                <div class="option" data-question="1" data-answer="d">Система передачи знаний от одного поколения к другому</div>
+                            </div>
+                            <div class="feedback" id="feedback1"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">2. Какой уровень научного познания обеспечивает фактическую основу для теоретического?</div>
+                            <div class="options">
+                                <div class="option" data-question="2" data-answer="a">Теоретический уровень</div>
+                                <div class="option" data-question="2" data-answer="b">Эмпирический уровень</div>
+                                <div class="option" data-question="2" data-answer="c">Методологический уровень</div>
+                                <div class="option" data-question="2" data-answer="d">Прикладной уровень</div>
+                            </div>
+                            <div class="feedback" id="feedback2"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">3. Что характеризует научную революцию?</div>
+                            <div class="options">
+                                <div class="option" data-question="3" data-answer="a">Постепенное накопление новых фактов</div>
+                                <div class="option" data-question="3" data-answer="b">Развитие существующих теорий</div>
+                                <div class="option" data-question="3" data-answer="c">Радикальное изменение картины мира</div>
+                                <div class="option" data-question="3" data-answer="d">Улучшение существующих методов исследования</div>
+                            </div>
+                            <div class="feedback" id="feedback3"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">4. Какой ученый доказал гипотезу Пуанкаре?</div>
+                            <div class="options">
+                                <div class="option" data-question="4" data-answer="a">Жорес Алферов</div>
+                                <div class="option" data-question="4" data-answer="b">Алексей Абрикосов</div>
+                                <div class="option" data-question="4" data-answer="c">Григорий Перельман</div>
+                                <div class="option" data-question="4" data-answer="d">Александр Павловский</div>
+                            </div>
+                            <div class="feedback" id="feedback4"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn" id="checkScienceQuiz">Проверить результаты</button>
+                        <button class="btn btn-outline" id="resetScienceQuiz" style="margin-left: 1rem;">Сбросить</button>
+                    </div>
+                    
+                    <div id="scienceQuizResult" style="margin-top: 1.5rem; text-align: center; font-weight: 600; font-size: 1.2rem; display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Education Quiz -->
+            <div id="education-quiz" class="tab-content">
+                <div class="game-container">
+                    <div class="game-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Викторина по образованию</h3>
+                    </div>
+                    
+                    <div class="game-instructions">
+                        <p><strong>Инструкция:</strong> Выберите один правильный ответ для каждого вопроса. После завершения нажмите "Проверить результаты".</p>
+                    </div>
+                    
+                    <div class="quiz-questions">
+                        <div class="question">
+                            <div class="question-text">1. Какая функция образования связана с подготовкой квалифицированных работников?</div>
+                            <div class="options">
+                                <div class="option" data-question="1" data-answer="a">Социальная</div>
+                                <div class="option" data-question="1" data-answer="b">Культурная</div>
+                                <div class="option" data-question="1" data-answer="c">Экономическая</div>
+                                <div class="option" data-question="1" data-answer="d">Воспитательная</div>
+                            </div>
+                            <div class="feedback" id="feedback1e"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">2. Что такое образование?</div>
+                            <div class="options">
+                                <div class="option" data-question="2" data-answer="a">Процесс приобретения знаний и навыков</div>
+                                <div class="option" data-question="2" data-answer="b">Социальный институт по передаче знаний от поколения к поколению</div>
+                                <div class="option" data-question="2" data-answer="c">Система учебных заведений</div>
+                                <div class="option" data-question="2" data-answer="d">Процесс социализации личности</div>
+                            </div>
+                            <div class="feedback" id="feedback2e"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">3. Какая функция образования связана с передачей культурного наследия?</div>
+                            <div class="options">
+                                <div class="option" data-question="3" data-answer="a">Идеологическая</div>
+                                <div class="option" data-question="3" data-answer="b">Культурная</div>
+                                <div class="option" data-question="3" data-answer="c">Воспитательная</div>
+                                <div class="option" data-question="3" data-answer="d">Социальная</div>
+                            </div>
+                            <div class="feedback" id="feedback3e"></div>
+                        </div>
+                        
+                        <div class="question">
+                            <div class="question-text">4. Кто автор цитаты о "голове, наполненной отрывочными знаниями"?</div>
+                            <div class="options">
+                                <div class="option" data-question="4" data-answer="a">Л.Н. Толстой</div>
+                                <div class="option" data-question="4" data-answer="b">К.Д. Ушинский</div>
+                                <div class="option" data-question="4" data-answer="c">Я.А. Коменский</div>
+                                <div class="option" data-question="4" data-answer="d">А.С. Макаренко</div>
+                            </div>
+                            <div class="feedback" id="feedback4e"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn" id="checkEducationQuiz">Проверить результаты</button>
+                        <button class="btn btn-outline" id="resetEducationQuiz" style="margin-left: 1rem;">Сбросить</button>
+                    </div>
+                    
+                    <div id="educationQuizResult" style="margin-top: 1.5rem; text-align: center; font-weight: 600; font-size: 1.2rem; display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Наука и Образование</h3>
+                    <p>Интерактивный образовательный ресурс, посвященный роли науки и образования в современном обществе.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Разделы</h3>
+                    <ul>
+                        <li><a href="#science">Наука</a></li>
+                        <li><a href="#education">Образование</a></li>
+                        <li><a href="#games">Образовательные игры</a></li>
+                        <li><a href="#about">О проекте</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Ресурсы</h3>
+                    <ul>
+                        <li><a href="#">Дополнительные материалы</a></li>
+                        <li><a href="#">Интерактивные задания</a></li>
+                        <li><a href="#">Тесты и викторины</a></li>
+                        <li><a href="#">Библиотека</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@science-education.ru</li>
+                        <li><i class="fas fa-phone"></i> +7 (495) 123-45-67</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Москва, Россия</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Наука и Образование. Все права защищены.</p>
+                <p>Интерактивный образовательный ресурс для учеников и студентов</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('section');
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mainNav = document.getElementById('mainNav');
+            
+            // Smooth scrolling for navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        
+                        // Scroll to section
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Mobile menu toggle
+            mobileToggle.addEventListener('click', function() {
+                mainNav.style.display = mainNav.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Tab navigation
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to current button and content
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Matching Game
+            let selectedConcept = null;
+            let selectedDefinition = null;
+            const matchItems = document.querySelectorAll('.match-item');
+            
+            matchItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const id = this.getAttribute('data-id');
+                    
+                    if (type === 'concept') {
+                        // Reset previous selection
+                        if (selectedConcept) {
+                            selectedConcept.classList.remove('selected');
+                        }
+                        selectedConcept = this;
+                        this.classList.add('selected');
+                    } else if (type === 'definition') {
+                        // Reset previous selection
+                        if (selectedDefinition) {
+                            selectedDefinition.classList.remove('selected');
+                        }
+                        selectedDefinition = this;
+                        this.classList.add('selected');
+                    }
+                    
+                    // If both selected, check match
+                    if (selectedConcept && selectedDefinition) {
+                        if (selectedConcept.getAttribute('data-id') === selectedDefinition.getAttribute('data-id')) {
+                            selectedConcept.classList.add('correct');
+                            selectedDefinition.classList.add('correct');
+                            selectedConcept = null;
+                            selectedDefinition = null;
+                        } else {
+                            selectedConcept.classList.add('incorrect');
+                            selectedDefinition.classList.add('incorrect');
+                            
+                            // Reset after delay
+                            setTimeout(() => {
+                                selectedConcept.classList.remove('selected', 'incorrect');
+                                selectedDefinition.classList.remove('selected', 'incorrect');
+                                selectedConcept = null;
+                                selectedDefinition = null;
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+            
+            // Check matching game
+            document.getElementById('checkMatching').addEventListener('click', function() {
+                const correctItems = document.querySelectorAll('.match-item.correct');
+                const totalPairs = 4;
+                const correctPairs = correctItems.length / 2;
+                
+                const resultDiv = document.getElementById('matchingResult');
+                resultDiv.style.display = 'block';
+                
+                if (correctPairs === totalPairs) {
+                    resultDiv.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i> Поздравляем! Все пары сопоставлены верно!`;
+                    resultDiv.style.color = 'var(--success)';
+                } else {
+                    resultDiv.innerHTML = `<i class="fas fa-times-circle" style="color: var(--warning); margin-right: 10px;"></i> Правильно сопоставлено ${correctPairs} из ${totalPairs} пар. Попробуйте еще раз!`;
+                    resultDiv.style.color = 'var(--warning)';
+                }
+            });
+            
+            // Reset matching game
+            document.getElementById('resetMatching').addEventListener('click', function() {
+                matchItems.forEach(item => {
+                    item.classList.remove('selected', 'correct', 'incorrect');
+                });
+                selectedConcept = null;
+                selectedDefinition = null;
+                document.getElementById('matchingResult').style.display = 'none';
+            });
+            
+            // Science Quiz
+            const scienceQuizOptions = document.querySelectorAll('#science-quiz .option');
+            scienceQuizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    
+                    // Remove selected class from all options in this question
+                    document.querySelectorAll(`#science-quiz .option[data-question="${question}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Check Science Quiz
+            document.getElementById('checkScienceQuiz').addEventListener('click', function() {
+                let score = 0;
+                const totalQuestions = 4;
+                
+                // Clear previous feedback
+                document.querySelectorAll('#science-quiz .feedback').forEach(fb => {
+                    fb.style.display = 'none';
+                    fb.innerHTML = '';
+                });
+                
+                // Check each question
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const selectedOption = document.querySelector(`#science-quiz .option[data-question="${i}"].selected`);
+                    const feedback = document.getElementById(`feedback${i}`);
+                    
+                    if (selectedOption) {
+                        const answer = selectedOption.getAttribute('data-answer');
+                        let isCorrect = false;
+                        
+                        // Check answers
+                        switch(i) {
+                            case 1:
+                                if (answer === 'b') isCorrect = true;
+                                break;
+                            case 2:
+                                if (answer === 'b') isCorrect = true;
+                                break;
+                            case 3:
+                                if (answer === 'c') isCorrect = true;
+                                break;
+                            case 4:
+                                if (answer === 'c') isCorrect = true;
+                                break;
+                        }
+                        
+                        if (isCorrect) {
+                            score++;
+                            selectedOption.classList.add('correct');
+                            feedback.innerHTML = '<i class="fas fa-check"></i> Верно!';
+                            feedback.className = 'feedback correct';
+                        } else {
+                            selectedOption.classList.add('incorrect');
+                            feedback.innerHTML = '<i class="fas fa-times"></i> Неверно. Правильный ответ: ';
+                            
+                            // Add correct answer
+                            switch(i) {
+                                case 1:
+                                    feedback.innerHTML += 'Важнейший социальный институт общества, удовлетворяющий потребность в открытии нового';
+                                    break;
+                                case 2:
+                                    feedback.innerHTML += 'Эмпирический уровень';
+                                    break;
+                                case 3:
+                                    feedback.innerHTML += 'Радикальное изменение картины мира';
+                                    break;
+                                case 4:
+                                    feedback.innerHTML += 'Григорий Перельман';
+                                    break;
+                            }
+                            feedback.className = 'feedback incorrect';
+                        }
+                        
+                        feedback.style.display = 'block';
+                    }
+                }
+                
+                // Show result
+                const resultDiv = document.getElementById('scienceQuizResult');
+                resultDiv.style.display = 'block';
+                
+                if (score === totalQuestions) {
+                    resultDiv.innerHTML = `<i class="fas fa-trophy" style="color: gold; margin-right: 10px;"></i> Отлично! ${score} из ${totalQuestions} — вы настоящий знаток науки!`;
+                    resultDiv.style.color = 'var(--success)';
+                } else if (score >= totalQuestions * 0.75) {
+                    resultDiv.innerHTML = `<i class="fas fa-medal" style="color: #c0c0c0; margin-right: 10px;"></i> Хорошо! ${score} из ${totalQuestions} — вы хорошо разбираетесь в теме!`;
+                    resultDiv.style.color = 'var(--primary)';
+                } else if (score >= totalQuestions * 0.5) {
+                    resultDiv.innerHTML = `<i class="fas fa-star" style="color: #ffd700; margin-right: 10px;"></i> Удовлетворительно! ${score} из ${totalQuestions} — есть над чем поработать.`;
+                    resultDiv.style.color = 'var(--warning)';
+                } else {
+                    resultDiv.innerHTML = `<i class="fas fa-redo" style="color: var(--secondary); margin-right: 10px;"></i> ${score} из ${totalQuestions} — повторите материал и попробуйте снова!`;
+                    resultDiv.style.color = 'var(--secondary)';
+                }
+            });
+            
+            // Reset Science Quiz
+            document.getElementById('resetScienceQuiz').addEventListener('click', function() {
+                scienceQuizOptions.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                });
+                document.querySelectorAll('#science-quiz .feedback').forEach(fb => {
+                    fb.style.display = 'none';
+                });
+                document.getElementById('scienceQuizResult').style.display = 'none';
+            });
+            
+            // Education Quiz
+            const educationQuizOptions = document.querySelectorAll('#education-quiz .option');
+            educationQuizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    
+                    // Remove selected class from all options in this question
+                    document.querySelectorAll(`#education-quiz .option[data-question="${question}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Check Education Quiz
+            document.getElementById('checkEducationQuiz').addEventListener('click', function() {
+                let score = 0;
+                const totalQuestions = 4;
+                
+                // Clear previous feedback
+                document.querySelectorAll('#education-quiz .feedback').forEach(fb => {
+                    fb.style.display = 'none';
+                    fb.innerHTML = '';
+                });
+                
+                // Check each question
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const selectedOption = document.querySelector(`#education-quiz .option[data-question="${i}"].selected`);
+                    const feedback = document.getElementById(`feedback${i}e`);
+                    
+                    if (selectedOption) {
+                        const answer = selectedOption.getAttribute('data-answer');
+                        let isCorrect = false;
+                        
+                        // Check answers
+                        switch(i) {
+                            case 1:
+                                if (answer === 'c') isCorrect = true;
+                                break;
+                            case 2:
+                                if (answer === 'b') isCorrect = true;
+                                break;
+                            case 3:
+                                if (answer === 'b') isCorrect = true;
+                                break;
+                            case 4:
+                                if (answer === 'b') isCorrect = true;
+                                break;
+                        }
+                        
+                        if (isCorrect) {
+                            score++;
+                            selectedOption.classList.add('correct');
+                            feedback.innerHTML = '<i class="fas fa-check"></i> Верно!';
+                            feedback.className = 'feedback correct';
+                        } else {
+                            selectedOption.classList.add('incorrect');
+                            feedback.innerHTML = '<i class="fas fa-times"></i> Неверно. Правильный ответ: ';
+                            
+                            // Add correct answer
+                            switch(i) {
+                                case 1:
+                                    feedback.innerHTML += 'Экономическая';
+                                    break;
+                                case 2:
+                                    feedback.innerHTML += 'Социальный институт по передаче знаний от поколения к поколению';
+                                    break;
+                                case 3:
+                                    feedback.innerHTML += 'Культурная';
+                                    break;
+                                case 4:
+                                    feedback.innerHTML += 'К.Д. Ушинский';
+                                    break;
+                            }
+                            feedback.className = 'feedback incorrect';
+                        }
+                        
+                        feedback.style.display = 'block';
+                    }
+                }
+                
+                // Show result
+                const resultDiv = document.getElementById('educationQuizResult');
+                resultDiv.style.display = 'block';
+                
+                if (score === totalQuestions) {
+                    resultDiv.innerHTML = `<i class="fas fa-trophy" style="color: gold; margin-right: 10px;"></i> Отлично! ${score} из ${totalQuestions} — вы отлично знаете систему образования!`;
+                    resultDiv.style.color = 'var(--success)';
+                } else if (score >= totalQuestions * 0.75) {
+                    resultDiv.innerHTML = `<i class="fas fa-medal" style="color: #c0c0c0; margin-right: 10px;"></i> Хорошо! ${score} из ${totalQuestions} — вы хорошо разбираетесь в теме!`;
+                    resultDiv.style.color = 'var(--primary)';
+                } else if (score >= totalQuestions * 0.5) {
+                    resultDiv.innerHTML = `<i class="fas fa-star" style="color: #ffd700; margin-right: 10px;"></i> Удовлетворительно! ${score} из ${totalQuestions} — есть над чем поработать.`;
+                    resultDiv.style.color = 'var(--warning)';
+                } else {
+                    resultDiv.innerHTML = `<i class="fas fa-redo" style="color: var(--secondary); margin-right: 10px;"></i> ${score} из ${totalQuestions} — повторите материал и попробуйте снова!`;
+                    resultDiv.style.color = 'var(--secondary)';
+                }
+            });
+            
+            // Reset Education Quiz
+            document.getElementById('resetEducationQuiz').addEventListener('click', function() {
+                educationQuizOptions.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                });
+                document.querySelectorAll('#education-quiz .feedback').forEach(fb => {
+                    fb.style.display = 'none';
+                });
+                document.getElementById('educationQuizResult').style.display = 'none';
+            });
+            
+            // Initialize with Science section active
+            document.getElementById('science').classList.add('active');
+        });
+    </script>
+</body>
+</html>
+```
 
     <footer>
         <p>© 2024 Мой сайт. Сделано с ❤️</p>
