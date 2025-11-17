@@ -1,204 +1,171 @@
-// games.js — исправленная, полностью рабочая версия
 document.addEventListener('DOMContentLoaded', () => {
-  // Проверяем: находимся ли мы на странице игр?
-  if (!document.querySelector('.game')) {
-    return; // Не games.html — выходим
-  }
+  if (!document.querySelector('.game')) return;
 
-  // === ДАННЫЕ ===
+  // Данные
   const cognitionQuestions = [
     { text: "Исследователь измерил скорость света с помощью интерферометра Майкельсона.", type: "empirical" },
-    { text: "Эйнштейн предложил теорию относительности, объясняющую связь массы и энергии.", type: "theoretical" },
+    { text: "Эйнштейн предложил теорию относительности.", type: "theoretical" },
     { text: "Биолог наблюдал деление клетки под микроскопом.", type: "empirical" },
-    { text: "Физик вывел уравнение Шрёдингера для описания поведения квантовых частиц.", type: "theoretical" },
-    { text: "Химик зафиксировал температуру кипения нового соединения.", type: "empirical" }
+    { text: "Физик вывел уравнение Шрёдингера.", type: "theoretical" },
+    { text: "Химик зафиксировал температуру кипения.", type: "empirical" }
   ];
 
   const funcQuestions = [
-    {
-      text: "Учёные разработали вакцину от нового вируса, спасшую миллионы жизней.",
-      options: ["Познавательная", "Мировоззренческая", "Производственная", "Социальная"],
-      answer: 2
-    },
-    {
-      text: "Социологи выявили закономерности миграции и предложили меры по интеграции.",
-      options: ["Познавательная", "Социальная", "Культурная", "Просветительская"],
-      answer: 1
-    },
-    {
-      text: "Открытие ДНК привело к пониманию наследственности и развитию генной инженерии.",
-      options: ["Познавательная", "Производственная", "Мировоззренческая", "Все вышеперечисленные"],
-      answer: 3
-    },
-    {
-      text: "Научные лекции в школах формируют у подростков критическое мышление.",
-      options: ["Производственная", "Просветительская", "Идеологическая", "Воспитательная"],
-      answer: 1
-    }
+    { text: "Вакцина спасла миллионы жизней.", options: ["Познавательная", "Мировоззренческая", "Производственная", "Социальная"], answer: 2 },
+    { text: "Социологи предложили меры по интеграции.", options: ["Познавательная", "Социальная", "Культурная", "Просветительская"], answer: 1 },
+    { text: "Открытие ДНК → генная инженерия.", options: ["Познавательная", "Производственная", "Мировоззренческая", "Все вышеперечисленные"], answer: 3 },
+    { text: "Лекции формируют критическое мышление.", options: ["Производственная", "Просветительская", "Идеологическая", "Воспитательная"], answer: 1 },
+    { text: "Учёные создали модель климата Земли.", options: ["Познавательная", "Прогностическая", "Производственная", "Социальная"], answer: 1 }
   ];
 
   const eduQuestions = [
-    {
-      text: "Школа организует экскурсию в музей боевой славы, где ученики узнают о подвигах предков.",
-      options: ["Экономическая", "Культурная", "Воспитательная", "Идеологическая"],
-      answer: 3
-    },
-    {
-      text: "Студенты колледжа проходят практику на заводе и получают диплом техника-механика.",
-      options: ["Социальная", "Экономическая", "Культурная", "Воспитательная"],
-      answer: 1
-    },
-    {
-      text: "В детском саду дети играют в «семью», учатся делиться и договариваться.",
-      options: ["Идеологическая", "Воспитательная", "Культурная", "Социальная"],
-      answer: 1
-    },
-    {
-      text: "Университет проводит летнюю школу для одарённых школьников из малых городов.",
-      options: ["Экономическая", "Культурная", "Социальная", "Идеологическая"],
-      answer: 2
-    }
+    { text: "Экскурсия в музей боевой славы.", options: ["Экономическая", "Культурная", "Воспитательная", "Идеологическая"], answer: 3 },
+    { text: "Практика на заводе → диплом техника.", options: ["Социальная", "Экономическая", "Культурная", "Воспитательная"], answer: 1 },
+    { text: "Дети играют в «семью».", options: ["Идеологическая", "Воспитательная", "Культурная", "Социальная"], answer: 1 },
+    { text: "Летняя школа для одарённых.", options: ["Экономическая", "Культурная", "Социальная", "Идеологическая"], answer: 2 },
+    { text: "Уроки ОБЖ — действия при ЧС.", options: ["Экономическая", "Социальная", "Воспитательная", "Идеологическая"], answer: 2 }
   ];
 
-  // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
-  function showFeedback(id, text, isCorrect) {
+  // Состояния игр
+  let game1 = { index: 0, score: 0, attempts: 0 };
+  let game2 = { index: 0, score: 0, attempts: 0 };
+  let game3 = { index: 0, score: 0, attempts: 0 };
+
+  // Вспомогательные
+  const showFeedback = (id, text, correct) => {
     const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = text;
-    el.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-  }
+    if (el) {
+      el.textContent = text;
+      el.className = `feedback ${correct ? 'correct' : 'incorrect'}`;
+    }
+  };
+  const showNext = (id) => document.getElementById(id)?.style.setProperty('display', 'inline-block');
+  const hideNext = (id) => document.getElementById(id)?.style.setProperty('display', 'none');
 
-  function showNextButton(id) {
-    const btn = document.getElementById(id);
-    if (btn) btn.style.display = 'inline-block';
-  }
-
-  function hideNextButton(id) {
-    const btn = document.getElementById(id);
-    if (btn) btn.style.display = 'none';
-  }
-
-  // === ИГРА 1: Уровни познания ===
-  let qIndex = 0;
-
-  function loadQuestion1() {
-    const q = cognitionQuestions[qIndex];
+  // === ИГРА 1 ===
+  const loadGame1 = () => {
+    const q = cognitionQuestions[game1.index];
     document.getElementById('statement').textContent = q.text;
-    hideNextButton('next-btn');
+    hideNext('next-btn');
     showFeedback('feedback', '', false);
-  }
+  };
 
-  function checkAnswer1(answer) {
-    const q = cognitionQuestions[qIndex];
-    const isCorrect = answer === q.type;
-    const text = isCorrect 
-      ? "✅ Верно!" 
-      : `❌ Неверно. Это — ${q.type === 'empirical' ? 'эмпирическое' : 'теоретическое'} знание.`;
-    showFeedback('feedback', text, isCorrect);
-    showNextButton('next-btn');
-  }
+  document.getElementById('btn-empirical')?.addEventListener('click', () => {
+    const q = cognitionQuestions[game1.index];
+    const correct = 'empirical' === q.type;
+    game1.attempts++; if (correct) game1.score++;
+    showFeedback('feedback', correct ? "✅ Верно!" : `❌ Это — ${q.type === 'empirical' ? 'эмпирическое' : 'теоретическое'} знание.`, correct);
+    showNext('next-btn');
+  });
 
-  function nextQuestion1() {
-    qIndex = (qIndex + 1) % cognitionQuestions.length;
-    loadQuestion1();
-  }
+  document.getElementById('btn-theoretical')?.addEventListener('click', () => {
+    const q = cognitionQuestions[game1.index];
+    const correct = 'theoretical' === q.type;
+    game1.attempts++; if (correct) game1.score++;
+    showFeedback('feedback', correct ? "✅ Верно!" : `❌ Это — ${q.type === 'empirical' ? 'эмпирическое' : 'теоретическое'} знание.`, correct);
+    showNext('next-btn');
+  });
 
-  // Привязка кнопок (статичные — можно сразу)
-  const btnEmpirical = document.getElementById('btn-empirical');
-  const btnTheoretical = document.getElementById('btn-theoretical');
-  const nextBtn1 = document.getElementById('next-btn');
+  document.getElementById('next-btn')?.addEventListener('click', () => {
+    game1.index = (game1.index + 1) % cognitionQuestions.length;
+    if (game1.attempts >= 5) showResult(1);
+    else loadGame1();
+  });
 
-  if (btnEmpirical) btnEmpirical.addEventListener('click', () => checkAnswer1('empirical'));
-  if (btnTheoretical) btnTheoretical.addEventListener('click', () => checkAnswer1('theoretical'));
-  if (nextBtn1) nextBtn1.addEventListener('click', nextQuestion1);
-
-  // === ИГРА 2: Функции науки ===
-  let fIndex = 0;
-
-  function loadQuestion2() {
-    const q = funcQuestions[fIndex];
+  // === ИГРА 2 ===
+  const loadGame2 = () => {
+    const q = funcQuestions[game2.index];
     document.getElementById('func-statement').textContent = q.text;
-    
-    const container = document.getElementById('func-options');
-    if (!container) return;
-    container.innerHTML = '';
-    
-    q.options.forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = opt;
-      // ⚠️ Важно: вешаем обработчик ПРИ СОЗДАНИИ кнопки
-      btn.onclick = () => checkAnswer2(i);
-      container.appendChild(btn);
-    });
-    
-    hideNextButton('next-func-btn');
+    const cont = document.getElementById('func-options');
+    if (cont) {
+      cont.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = opt;
+        btn.onclick = () => {
+          const correct = i === q.answer;
+          game2.attempts++; if (correct) game2.score++;
+          showFeedback('func-feedback', correct ? "✅ Отлично!" : `❌ Правильно: «${q.options[q.answer]}»`, correct);
+          showNext('next-func-btn');
+        };
+        cont.appendChild(btn);
+      });
+    }
+    hideNext('next-func-btn');
     showFeedback('func-feedback', '', false);
-  }
+  };
 
-  function checkAnswer2(selectedIndex) {
-    const q = funcQuestions[fIndex];
-    const isCorrect = selectedIndex === q.answer;
-    const text = isCorrect
-      ? "✅ Отлично! Вы точно понимаете функции науки."
-      : `❌ Близко! Правильный ответ: «${q.options[q.answer]}».`;
-    showFeedback('func-feedback', text, isCorrect);
-    showNextButton('next-func-btn');
-  }
+  document.getElementById('next-func-btn')?.addEventListener('click', () => {
+    game2.index = (game2.index + 1) % funcQuestions.length;
+    if (game2.attempts >= 5) showResult(2);
+    else loadGame2();
+  });
 
-  function nextQuestion2() {
-    fIndex = (fIndex + 1) % funcQuestions.length;
-    loadQuestion2();
-  }
-
-  const nextBtn2 = document.getElementById('next-func-btn');
-  if (nextBtn2) nextBtn2.addEventListener('click', nextQuestion2);
-
-  // === ИГРА 3: Функции образования ===
-  let eIndex = 0;
-
-  function loadQuestion3() {
-    const q = eduQuestions[eIndex];
+  // === ИГРА 3 ===
+  const loadGame3 = () => {
+    const q = eduQuestions[game3.index];
     document.getElementById('edu-statement').textContent = q.text;
-    
-    const container = document.getElementById('edu-options');
-    if (!container) return;
-    container.innerHTML = '';
-    
-    q.options.forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = opt;
-      // ⚠️ Вешаем обработчик при создании
-      btn.onclick = () => checkAnswer3(i);
-      container.appendChild(btn);
-    });
-    
-    hideNextButton('next-edu-btn');
+    const cont = document.getElementById('edu-options');
+    if (cont) {
+      cont.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = opt;
+        btn.onclick = () => {
+          const correct = i === q.answer;
+          game3.attempts++; if (correct) game3.score++;
+          showFeedback('edu-feedback', correct ? "✅ Точно!" : `❌ Правильно: «${q.options[q.answer]}»`, correct);
+          showNext('next-edu-btn');
+        };
+        cont.appendChild(btn);
+      });
+    }
+    hideNext('next-edu-btn');
     showFeedback('edu-feedback', '', false);
-  }
+  };
 
-  function checkAnswer3(selectedIndex) {
-    const q = eduQuestions[eIndex];
-    const isCorrect = selectedIndex === q.answer;
-    const text = isCorrect
-      ? "✅ Точно! Вы отлично разбираетесь в функциях образования."
-      : `❌ Почти! Правильный ответ: «${q.options[q.answer]}».`;
-    showFeedback('edu-feedback', text, isCorrect);
-    showNextButton('next-edu-btn');
-  }
+  document.getElementById('next-edu-btn')?.addEventListener('click', () => {
+    game3.index = (game3.index + 1) % eduQuestions.length;
+    if (game3.attempts >= 5) showResult(3);
+    else loadGame3();
+  });
 
-  function nextQuestion3() {
-    eIndex = (eIndex + 1) % eduQuestions.length;
-    loadQuestion3();
-  }
+  // === ФИНАЛЬНЫЙ ОТЧЁТ ===
+  const showResult = (gameNum) => {
+    let score = 0, attempts = 0, name = '';
+    if (gameNum === 1) { score = game1.score; attempts = game1.attempts; name = "Уровни познания"; }
+    if (gameNum === 2) { score = game2.score; attempts = game2.attempts; name = "Функции науки"; }
+    if (gameNum === 3) { score = game3.score; attempts = game3.attempts; name = "Функции образования"; }
 
-  const nextBtn3 = document.getElementById('next-edu-btn');
-  if (nextBtn3) nextBtn3.addEventListener('click', nextQuestion3);
+    // Создаём модальное окно
+    const modal = document.createElement('div');
+    modal.innerHTML = `
+      <div class="modal-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center;">
+        <div class="modal" style="background:var(--secondary);border-radius:16px;padding:2rem;max-width:500px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+          <h3 style="color:var(--accent);margin-bottom:1rem;">📊 Результаты: ${name}</h3>
+          <p style="font-size:1.4rem;margin:1.5rem 0;">${score} из ${attempts}</p>
+          <p style="margin-bottom:1.5rem;">
+            ${score === 5 ? "🏆 Идеально! Вы — будущий нобелевский лауреат!" :
+              score >= 4 ? "🎉 Отлично! Прочная база знаний." :
+              score >= 3 ? "👍 Хорошо! Есть что повторить." :
+              "📚 Советуем перечитать раздел и попробовать снова."}
+          </p>
+          <button class="btn" onclick="this.closest('.modal-overlay').remove()" style="margin:0 auto;">Закрыть</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
 
-  // === ЗАПУСК ПЕРВЫХ ВОПРОСОВ ===
-  // Запускаем только если элементы существуют
-  if (document.getElementById('statement')) loadQuestion1();
-  if (document.getElementById('func-statement')) loadQuestion2();
-  if (document.getElementById('edu-statement')) loadQuestion3();
+    // Сброс игры
+    if (gameNum === 1) { game1 = { index: 0, score: 0, attempts: 0 }; loadGame1(); }
+    if (gameNum === 2) { game2 = { index: 0, score: 0, attempts: 0 }; loadGame2(); }
+    if (gameNum === 3) { game3 = { index: 0, score: 0, attempts: 0 }; loadGame3(); }
+  };
+
+  // Запуск
+  if (document.getElementById('statement')) loadGame1();
+  if (document.getElementById('func-statement')) loadGame2();
+  if (document.getElementById('edu-statement')) loadGame3();
 });
