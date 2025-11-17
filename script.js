@@ -133,3 +133,82 @@ document.getElementById('next-func-btn').addEventListener('click', nextFuncQuest
 
 // Загрузка первого вопроса
 loadFuncQuestion();
+
+// === Game 3: Функции образования ===
+const eduQuestions = [
+  {
+    text: "Школа организует экскурсию в музей боевой славы, где ученики узнают о подвигах предков.",
+    options: ["Экономическая", "Культурная", "Воспитательная", "Идеологическая"],
+    answer: 3 // Идеологическая (патриотизм, идентичность)
+  },
+  {
+    text: "Студенты колледжа проходят практику на заводе и получают диплом техника-механика.",
+    options: ["Социальная", "Экономическая", "Культурная", "Воспитательная"],
+    answer: 1 // Экономическая (подготовка кадров)
+  },
+  {
+    text: "В детском саду дети играют в «семью», учатся делиться и договариваться.",
+    options: ["Идеологическая", "Воспитательная", "Культурная", "Социальная"],
+    answer: 1 // Воспитательная (социализация, нормы)
+  },
+  {
+    text: "Университет проводит летнюю школу для одарённых школьников из малых городов.",
+    options: ["Экономическая", "Культурная", "Социальная", "Идеологическая"],
+    answer: 2 // Социальная (мобильность, равные возможности)
+  }
+];
+
+let currentEduIndex = 0;
+
+function loadEduQuestion() {
+  const current = eduQuestions[currentEduIndex];
+  document.getElementById('edu-statement').textContent = current.text;
+  
+  const optionsEl = document.getElementById('edu-options');
+  optionsEl.innerHTML = '';
+  
+  current.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = opt;
+    btn.onclick = () => checkEduAnswer(i);
+    optionsEl.appendChild(btn);
+  });
+  
+  document.getElementById('edu-feedback').textContent = '';
+  document.getElementById('edu-feedback').className = 'feedback';
+  document.getElementById('next-edu-btn').style.display = 'none';
+}
+
+function checkEduAnswer(selectedIndex) {
+  const current = eduQuestions[currentEduIndex];
+  const feedbackEl = document.getElementById('edu-feedback');
+  
+  if (selectedIndex === current.answer) {
+    feedbackEl.textContent = "✅ Точно! Вы отлично разбираетесь в функциях образования.";
+    feedbackEl.className = 'feedback correct';
+  } else {
+    const correctAns = current.options[current.answer];
+    feedbackEl.textContent = `❌ Почти! Правильный ответ: «${correctAns}».`;
+    feedbackEl.className = 'feedback incorrect';
+  }
+  document.getElementById('next-edu-btn').style.display = 'inline-block';
+}
+
+function nextEduQuestion() {
+  currentEduIndex = (currentEduIndex + 1) % eduQuestions.length;
+  loadEduQuestion();
+}
+
+// Привязка событий
+document.getElementById('next-edu-btn').addEventListener('click', nextEduQuestion);
+
+// Загрузка первой игры по образованию — после полной загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+  // ... существующие игры уже запущены
+  
+  // Запуск новой игры
+  if (document.getElementById('edu-statement')) {
+    loadEduQuestion();
+  }
+});
