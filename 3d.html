@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Хомяк 🐹</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        #scene-container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div id="scene-container"></div>
+    
+    <div class="info">
+        <h2>🐹 3D Хомяк SomeHamsterCode</h2>
+        <p>Вращай сцену мышью • Приближай колёсиком</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Инициализация сцены
+        const container = document.getElementById('scene-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+
+        // Создаём "хомяка" из сфер
+        function createHamster() {
+            const group = new THREE.Group();
+            
+            // Тело хомяка (большая сфера)
+            const bodyGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const bodyMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xF5DEB3, // Бежевый цвет
+                shininess: 30
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            group.add(body);
+            
+            // Голова хомяка
+            const headGeometry = new THREE.SphereGeometry(0.6, 32, 32);
+            const headMaterial = new THREE.MeshPhongMaterial({ color: 0xF5DEB3 });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.set(0.8, 0.3, 0);
+            group.add(head);
+            
+            // Уши
+            const earGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const earMaterial = new THREE.MeshPhongMaterial({ color: 0xD2B48C });
+            
+            const ear1 = new THREE.Mesh(earGeometry, earMaterial);
+            ear1.position.set(0.6, 0.8, 0.4);
+            ear1.scale.set(1, 1.5, 1);
+            group.add(ear1);
+            
+            const ear2 = new THREE.Mesh(earGeometry, earMaterial);
+            ear2.position.set(0.6, 0.8, -0.4);
+            ear2.scale.set(1, 1.5, 1);
+            group.add(ear2);
+            
+            // Глаза
+            const eyeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+            const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+            
+            const eye1 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            eye1.position.set(1.1, 0.4, 0.2);
+            group.add(eye1);
+            
+            const eye2 = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            eye2.position.set(1.1, 0.4, -0.2);
+            group.add(eye2);
+            
+            // Нос
+            const noseGeometry = new THREE.SphereGeometry(0.08, 16, 16);
+            const noseMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+            const nose = new THREE.Mesh(noseGeometry, noseMaterial);
+            nose.position.set(1.3, 0.2, 0);
+            group.add(nose);
+            
+            return group;
+        }
+
+        const hamster = createHamster();
+        scene.add(hamster);
+
+        // Освещение
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(10, 10, 5);
+        scene.add(directionalLight);
+        
+        const pointLight = new THREE.PointLight(0xff6b6b, 1, 100);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        // Позиция камеры
+        camera.position.set(0, 0, 5);
+
+        // Управление мышью
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX) * 0.001;
+            mouseY = (event.clientY - windowHalfY) * 0.001;
+        });
+
+        // Анимация
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Плавное вращение за мышью
+            targetX = mouseX * 2;
+            targetY = mouseY * 2;
+            
+            hamster.rotation.y += (targetX - hamster.rotation.y) * 0.05;
+            hamster.rotation.x += (targetY - hamster.rotation.x) * 0.05;
+            
+            // Плавное "дыхание" хомяка
+            hamster.scale.x = 1 + Math.sin(Date.now() * 0.002) * 0.1;
+            hamster.scale.y = 1 + Math.sin(Date.now() * 0.002) * 0.1;
+            hamster.scale.z = 1 + Math.sin(Date.now() * 0.002) * 0.1;
+            
+            renderer.render(scene, camera);
+        }
+
+        // Адаптация к размеру окна
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
