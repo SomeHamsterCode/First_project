@@ -1,4 +1,4 @@
-/* ===== СОВРЕМЕННЫЙ ДИЗАЙН ===== */
+/* ===== ГЛОБАЛЬНЫЕ СТИЛИ ===== */
 :root {
   --primary: #0d1b2a;
   --secondary: #1b263b;
@@ -20,19 +20,25 @@ body {
   font-family: 'Segoe UI', system-ui, sans-serif;
   background: linear-gradient(135deg, #0c1427, #1a233a);
   color: var(--light);
-  line-height: 1.7;
+  line-height: 1.6;
   overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* === HEADER & NAV === */
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 1000;
   background: rgba(13, 27, 42, 0.95);
   backdrop-filter: blur(10px);
-  padding: 1rem 5%;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +55,7 @@ header {
 nav ul {
   display: flex;
   list-style: none;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 nav a {
@@ -61,7 +67,8 @@ nav a {
   transition: var(--transition);
 }
 
-nav a:hover {
+nav a:hover,
+nav a.active {
   color: var(--accent);
 }
 
@@ -76,25 +83,104 @@ nav a::after {
   transition: var(--transition);
 }
 
-nav a:hover::after {
+nav a:hover::after,
+nav a.active::after {
   width: 100%;
 }
 
-/* === HERO === */
+/* === ОСНОВНЫЕ СЕКЦИИ === */
+main {
+  min-height: calc(100vh - 140px);
+}
+
+.page-header {
+  background: rgba(13, 27, 42, 0.6);
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.page-header p {
+  font-size: 1.4rem;
+  opacity: 0.9;
+}
+
+.content {
+  padding: 4rem 0;
+}
+
+/* === КАРТОЧКИ === */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.8rem;
+  margin: 2.5rem 0;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid rgba(0, 180, 216, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 180, 216, 0.25);
+  border-color: var(--accent);
+}
+
+.card h2,
+.card h3 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.card p {
+  margin-bottom: 1rem;
+}
+
+/* === ЦИТАТЫ === */
+.quote {
+  font-style: italic;
+  padding: 1.5rem;
+  border-left: 4px solid var(--accent);
+  background: rgba(0, 180, 216, 0.05);
+  border-radius: 0 8px 8px 0;
+  margin: 2.5rem 0;
+  max-width: 800px;
+}
+
+.quote-author {
+  display: block;
+  text-align: right;
+  font-weight: 600;
+  color: #90e0ef;
+  margin-top: 0.5rem;
+}
+
+/* === HERO (главная) === */
 .hero {
-  height: 100vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 0 5%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%2300b4d8" stroke-opacity="0.1" stroke-width="1"/></svg>') center/cover;
+  padding: 0 2rem;
+  background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%2300b4d8" stroke-opacity="0.1" stroke-width="1"/></svg>') center/cover;
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1.2rem;
   background: linear-gradient(to right, #e0f7fa, #00b4d8);
   -webkit-background-clip: text;
   background-clip: text;
@@ -109,121 +195,53 @@ nav a:hover::after {
   opacity: 0.9;
 }
 
+.hero-btn {
+  background: var(--accent);
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin: 0.5rem;
+  display: inline-block;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
+}
+
+.hero-btn:hover {
+  transform: scale(1.05);
+  background: var(--dark-accent);
+}
+
+.hero-btn-outline {
+  background: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.hero-btn-outline:hover {
+  background: rgba(0, 180, 216, 0.1);
+}
+
 .subtitle {
   font-style: italic;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   font-size: 1.1rem;
   color: #a9d6e5;
+  max-width: 700px;
 }
 
-/* === SECTIONS === */
-section {
-  padding: 6rem 5%;
-  scroll-margin-top: 70px;
-}
-
-#education {
-  background: rgba(10, 25, 47, 0.4);
-}
-
-#about {
-  background: rgba(5, 20, 40, 0.6);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2.5rem;
-  color: var(--accent);
-  text-align: center;
-  position: relative;
-}
-
-h2::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 4px;
-  background: var(--accent);
-  margin: 0.5rem auto;
-  border-radius: 2px;
-}
-
-.section-subtitle {
-  text-align: center;
-  margin: 3rem 0 1.5rem;
-  color: var(--accent);
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-  border: 1px solid rgba(0, 180, 216, 0.1);
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0, 180, 216, 0.2);
-  border-color: var(--accent);
-}
-
-.card h3 {
-  color: var(--accent);
-  margin-bottom: 1rem;
-  font-size: 1.6rem;
-}
-
-.card p {
-  margin-bottom: 1rem;
-}
-
-.quote {
-  font-style: italic;
-  padding: 1.5rem;
-  border-left: 4px solid var(--accent);
-  background: rgba(0, 180, 216, 0.05);
-  border-radius: 0 8px 8px 0;
-  margin: 2rem 0;
-}
-
-.quote-author {
-  display: block;
-  text-align: right;
-  font-weight: 600;
-  color: #90e0ef;
-  margin-top: 0.5rem;
-}
-
-.highlight {
-  margin-top: 1.5rem;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-/* === GAMES === */
+/* === ИГРЫ === */
 .game {
   background: var(--secondary);
   border-radius: 16px;
   padding: 2rem;
   margin: 3rem 0;
-  text-align: center;
 }
 
-.game h3 {
+.game h2 {
+  text-align: center;
   color: var(--accent);
   margin-bottom: 1.5rem;
 }
@@ -251,7 +269,7 @@ h2::after {
 
 .btn:hover {
   background: var(--dark-accent);
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .btn:disabled {
@@ -264,10 +282,37 @@ h2::after {
   margin-top: 1rem;
   font-weight: 600;
   min-height: 1.5rem;
+  text-align: center;
 }
 
 .correct { color: #4ade80; }
 .incorrect { color: #f87171; }
+
+/* === ВСПОМОГАТЕЛЬНЫЕ === */
+.section-title {
+  text-align: center;
+  margin: 3rem 0 1.5rem;
+  color: var(--accent);
+  font-size: 2rem;
+}
+
+.features-list {
+  padding-left: 1.5rem;
+  margin: 1.2rem 0;
+}
+
+.features-list li {
+  margin-bottom: 0.6rem;
+}
+
+.highlight {
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0.8rem;
+  background: rgba(0, 180, 216, 0.1);
+  border-radius: 8px;
+}
 
 /* === FOOTER === */
 footer {
@@ -275,16 +320,14 @@ footer {
   padding: 2rem;
   background: var(--primary);
   border-top: 1px solid rgba(0, 180, 216, 0.1);
-  margin-top: 4rem;
+  margin-top: auto;
 }
 
-/* === RESPONSIVE === */
+/* === АДАПТИВ === */
 @media (max-width: 768px) {
-  nav ul {
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .hero h1 { font-size: 2.5rem; }
-  section { padding: 4rem 5%; }
+  nav ul { gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
+  .hero h1 { font-size: 2.3rem; }
+  .page-header h1 { font-size: 2.2rem; }
+  .hero-btn { display: block; margin: 0.5rem auto; width: fit-content; }
+  .container { padding: 0 1.2rem; }
 }
